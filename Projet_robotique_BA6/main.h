@@ -24,9 +24,9 @@ extern "C" {
 	#define KP						800.0f
 	#define KI 						3.5f	//must not be zero
 	#define MAX_SUM_ERROR 			(MOTOR_SPEED_LIMIT/KI)
-	#define WHEEL_PERIMETER          13 // [cm]
-	#define PI                  3.1415926536f
-	#define WHEEL_DISTANCE      5.35f    //cm
+	#define WHEEL_PERIMETER         13 // [cm]
+	#define PI                  	3.1415926536f
+	#define WHEEL_DISTANCE      	5.35f    //cm
 
 
 	//-------------LOOKUP TABLE DISTANCES DE IR1-------
@@ -57,7 +57,7 @@ extern "C" {
 	#define BORNE_MAX_L8_90			1
 
 	#define DISTANCE_LIMITE_VIRAGE  1
-	#define PERIMETER_EPUCK     (PI * WHEEL_DISTANCE)
+	#define PERIMETER_EPUCK     	(PI * WHEEL_DISTANCE)
 	#define DEG_15					PERIMETER_EPUCK/24
 	#define DEG_30					PERIMETER_EPUCK/12
 	#define DEG_45					PERIMETER_EPUCK/8
