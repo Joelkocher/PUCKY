@@ -13,6 +13,12 @@ static float distance_L1 		=	0;
 static float distance_L8 		=	0;
 static int angle_de_tournage	=	0;
 
+void get_proximity()
+{
+	distance_L1 = get_prox(FRONT_RIGHT);
+	distance_L8 = get_prox(FRONT_LEFT);
+}
+
 uint16_t get_angle(float distance_L1, float distance_L8){
 
 	if(distance_L1> distance_L8)
@@ -50,7 +56,7 @@ uint16_t get_angle(float distance_L1, float distance_L8){
 					angle_de_tournage= -DEG_75;
 		}
     	if(distance_L1 == distance_L8){
-	      			angle_de_tournage= DEG_90;
+	      	angle_de_tournage= DEG_90;
 	    }
 
 }
