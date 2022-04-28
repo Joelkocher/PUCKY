@@ -77,29 +77,8 @@ int main(void)
 	a = get_prox(0);
 	b = get_prox(7);
 
-	double sinangle;
-	double angle;
-
-	double inv_a = 1000;
-	//if(a > 0)
-	inv_a = 4096-(double)a;
-
-	double inv_b = 1000;
-	//if(b > 0)
-	inv_b = 4096-(double)b;
-
-	sinangle = (0.2956*inv_a/(inv_a*inv_a+inv_b*inv_b+1.91*inv_a*inv_b));
-	//sinangle = a + b;
-	//angle = inv_a + inv_b;
-	angle = asin(sinangle);
-
-
 	chprintf((BaseSequentialStream *)&SD3, "distance a = %d \n", a);
 	chprintf((BaseSequentialStream *)&SD3, "distance b = %d \n", b);
-	chprintf((BaseSequentialStream *)&SD3, "angle = %f \n", angle);
-	chprintf((BaseSequentialStream *)&SD3, "sinus de l'angle = %f \n", sinangle);
-	chprintf((BaseSequentialStream *)&SD3, "1/a = %f \n", inv_a);
-	chprintf((BaseSequentialStream *)&SD3, "1/b = %f \n", inv_b);
 
 	chThdSleepMilliseconds(100);
 	}
