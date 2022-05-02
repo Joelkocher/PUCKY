@@ -20,5 +20,5 @@
 */
 void turn_pucky(int turn_angle)
 {
-	motor_set_position(turn_angle*PERIMETER_EPUCK/TURN_FACTOR,-turn_angle*PERIMETER_EPUCK/TURN_FACTOR,SPEER_R,-SPEED_L)
+	motor_set_position(turn_angle*PERIMETER_EPUCK/TURN_FACTOR,-turn_angle*PERIMETER_EPUCK/TURN_FACTOR,SPEER_R,-SPEED_L);
 }
