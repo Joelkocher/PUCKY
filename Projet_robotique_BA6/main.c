@@ -18,6 +18,7 @@
 
 #include <pi_regulator.h>
 #include <process_image.h>
+#include <proximity_sensors.h>
 
 void SendUint8ToComputer(uint8_t* data, uint16_t size) 
 {
@@ -62,23 +63,16 @@ int main(void)
 
     //initialize proximity sensors
 	proximity_start();
+	calibrate_ir();
 	//messagebus_topic_t *proximity_topic = messagebus_find_topic_blocking(&bus, "/proximity");
 
-	calibrate_ir();
 
 	while(1){
 
-	unsigned int a;
-	unsigned int b;
+	get_proximity();
 
-	//a = get_calibrated_prox(0);
-	//b = get_calibrated_prox(7);
-
-	a = get_prox(0);
-	b = get_prox(7);
-
-	chprintf((BaseSequentialStream *)&SD3, "distance a = %d \n", a);
-	chprintf((BaseSequentialStream *)&SD3, "distance b = %d \n", b);
+	chprintf((BaseSequentialStream *)&SD3, "distance a = %d \n", distance_IR1);
+	chprintf((BaseSequentialStream *)&SD3, "distance b = %d \n", distance_IR8);
 
 	chThdSleepMilliseconds(100);
 	}

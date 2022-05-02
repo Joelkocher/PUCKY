@@ -29,33 +29,6 @@ extern "C" {
 	#define WHEEL_DISTANCE      	5.35f    //cm
 
 
-	//-------------LOOKUP TABLE DISTANCES DE IR1-------
-	#define BORNE_MIN_L1_15			1
-	#define BORNE_MAX_L1_15			1
-	#define BORNE_MIN_L1_30 		1
-	#define BORNE_MAX_L1_30			1
-	#define BORNE_MIN_L1_45			1
-	#define BORNE_MAX_L1_45			1
-	#define BORNE_MIN_L1_60			1
-	#define BORNE_MAX_L1_60			1
-	#define BORNE_MIN_L1_75			1
-	#define BORNE_MAX_L1_75			1
-	#define BORNE_MIN_L1_90			1
-	#define BORNE_MAX_L1_90			1
-	//-------------LOOKUP TABLE DISTANCES DE IR8-------
-	#define BORNE_MIN_L8_15			1
-	#define BORNE_MAX_L8_15			1
-	#define BORNE_MIN_L8_30 		1
-	#define BORNE_MAX_L8_30			1
-	#define BORNE_MIN_L8_45			1
-	#define BORNE_MAX_L8_45			1
-	#define BORNE_MIN_L8_60			1
-	#define BORNE_MAX_L8_60			1
-	#define BORNE_MIN_L8_75			1
-	#define BORNE_MAX_L8_75			1
-	#define BORNE_MIN_L8_90			1
-	#define BORNE_MAX_L8_90			1
-
 	#define DISTANCE_LIMITE_VIRAGE  1
 	#define PERIMETER_EPUCK     	(PI * WHEEL_DISTANCE)
 	#define DEG_15					PERIMETER_EPUCK/24

@@ -12,54 +12,13 @@
 #include <motor_control.h>
 
 
-// if distance is under min. distance measured by ToF and color is blue, turn pucky
+/* 
+	If distance is under min. distance measured by ToF and color is blue, turn Pucky
+	Position of motors must be set with the following function:
 
-void turn_pucky(int turn_angle, int distance_L1, int distance_L8)
+	turn_angle*PERIMETER_EPUCK/360
+*/
+void turn_pucky(int turn_angle)
 {
-	if(turn_angle == DEG_15)
-	{
-		motor_set_position(DEG_15, DEG_15, SPEED_R, -SPEED_L);
-	}
-	if(turn_angle == DEG_30)
-	{
-		motor_set_position(DEG_30, DEG_30, SPEED_R, -SPEED_L);
-	}
-	if(turn_angle == DEG_45)
-	{
-		motor_set_position(DEG_45, DEG_45, SPEED_R, -SPEED_L);
-	}
-	if(turn_angle == DEG_60)
-	{
-		motor_set_position(DEG_60, DEG_60, SPEED_R, -SPEED_L);
-	}
-	if(turn_angle == DEG_75)
-	{
-		motor_set_position(DEG_75, DEG_75, SPEED_R, -SPEED_L);
-	}
-	if(turn_angle == DEG_15)
-	{
-		motor_set_position(DEG_90, DEG_90, SPEED_R, -SPEED_L);
-	}
-
-	if(turn_angle == -DEG_15)
-	{
-		motor_set_position(DEG_15, DEG_15, -SPEED_R, SPEED_L);
-	}
-	if(turn_angle == -DEG_30)
-	{
-		motor_set_position(DEG_30, DEG_30, -SPEED_R, SPEED_L);
-	}
-	if(turn_angle == -DEG_45)
-	{
-		motor_set_position(DEG_45, DEG_45, -SPEED_R, SPEED_L);
-	}
-	if(turn_angle == -DEG_60)
-	{
-		motor_set_position(DEG_60, DEG_60, -SPEED_R, SPEED_L);
-	}
-	if(turn_angle == -DEG_75)
-	{
-		motor_set_position(DEG_75, DEG_75, -SPEED_R, SPEED_L);
-	}
-
+	motor_set_position(turn_angle*PERIMETER_EPUCK/TURN_FACTOR,-turn_angle*PERIMETER_EPUCK/TURN_FACTOR,SPEER_R,-SPEED_L)
 }
