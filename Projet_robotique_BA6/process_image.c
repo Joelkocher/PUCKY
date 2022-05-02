@@ -72,6 +72,8 @@ static THD_FUNCTION(ProcessImage, arg) {
 
 
 		//converts the width into a distance between the robot and the camera
+
+		/*
 		if(lineWidth){
 			distance_cm = PXTOCM/lineWidth;
 		}
@@ -82,9 +84,11 @@ static THD_FUNCTION(ProcessImage, arg) {
 		}
 		//invert the bool
 		send_to_computer = !send_to_computer;
+		*/
     }
 }
 
+/*
 float get_distance_cm(void){
 	return distance_cm;
 }
@@ -92,6 +96,7 @@ float get_distance_cm(void){
 uint16_t get_line_position(void){
 	return line_position;
 }
+*/
 
 void process_image_start(void){
 	chThdCreateStatic(waProcessImage, sizeof(waProcessImage), NORMALPRIO, ProcessImage, NULL);

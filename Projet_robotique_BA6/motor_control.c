@@ -1,6 +1,5 @@
 #include "ch.h"
 #include "hal.h"
-#include <math.h>
 #include <usbcfg.h>
 #include <chprintf.h>
 
@@ -16,9 +15,17 @@
 	If distance is under min. distance measured by ToF and color is blue, turn Pucky
 	Position of motors must be set with the following function:
 
-	turn_angle*PERIMETER_EPUCK/360
+	1000 steps/s = 1 revolution/s
+	1 revolution = PERIMETER_EPUCK = 40.84 cm
+	speed 5 cm/s = 122 setps/s
+
+	Wheels must turn according to following formula:
+	turn_angle*WHEEL_PERIMETER/360
+
 */
-void turn_pucky(int turn_angle)
+void turn_pucky(double angle)
 {
-	motor_set_position(turn_angle*PERIMETER_EPUCK/TURN_FACTOR,-turn_angle*PERIMETER_EPUCK/TURN_FACTOR,SPEER_R,-SPEED_L);
+	left_motor_set_speed(MOTOR_SPEED_L);
+	right_moto_set_speed(-MOTOR_SPEED_R);
+
 }

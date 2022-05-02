@@ -4,6 +4,11 @@
 #define IR_FRONT_RIGHT		0
 #define IR_FRONT_LEFT		7
 
+#define SQUARE_COEFF		0.038
+#define LIN_COEFF			-3.827
+#define CONST_COEFF			93.788
+
+
 /*
 Angle is approximated with a quadratic function.
 It depends on ratio = distance_IR1/distance_IR8:
@@ -13,10 +18,10 @@ angle(ratio)=0.038*ratio^2 - 3.827*ratio + 93.788
 */
 
 
-void get_proximity()
+void get_proximity(int distance1, int distance2)
 {
-	distance_IR1 = get_calibrated_prox(IR_FRONT_RIGHT);
-	distance_IR8 = get_calibrated_prox(IR_FRONT_LEFT);
+	distance1 = get_calibrated_prox(IR_FRONT_RIGHT);
+	distance2 = get_calibrated_prox(IR_FRONT_LEFT);
 }
 
 /*
@@ -25,14 +30,15 @@ void get_proximity()
 	If the angle is on the left of the e-puck, it's value will be negative
 	Otherwise it will be positive
 */
-void get_angle(int distance_IR1, int distance_IR8){
+double get_angle(int distance1, int distance2){
 
 	//ratio between 
 	double ratio;
 	double inv_ratio;
+	double turn_angle = 0;
 
-	ratio = distance_IR1/distance_IR8;
-	inv_ratio = distance_IR8/distance_IR1;
+	ratio = distance1/distance2;
+	inv_ratio = distance2/distance1;
 
 	if(ratio>=1)
 	{
@@ -42,4 +48,6 @@ void get_angle(int distance_IR1, int distance_IR8){
 	{
 		turn_angle = -(SQUARE_COEFF*inv_ratio*inv_ratio+LIN_COEFF*inv_ratio+CONST_COEFF);
 	}
+
+	return turn_angle;
 }

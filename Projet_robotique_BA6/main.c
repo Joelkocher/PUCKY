@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
+
 
 #include "ch.h"
 #include "hal.h"
@@ -14,11 +14,16 @@
 #include <camera/po8030.h>
 #include <chprintf.h>
 #include <sensors/proximity.h>
-#include <math.h>
+
 
 #include <pi_regulator.h>
 #include <process_image.h>
 #include <proximity_sensors.h>
+#include <motor_control.h>
+
+int distance_IR1 = 0;
+int distance_IR8	= 0;
+double	turn_angle = 0;
 
 void SendUint8ToComputer(uint8_t* data, uint16_t size) 
 {
@@ -27,10 +32,6 @@ void SendUint8ToComputer(uint8_t* data, uint16_t size)
 	chSequentialStreamWrite((BaseSequentialStream *)&SD3, (uint8_t*)data, size);
 }
 
-static int distance_cm 		=	0;
-static int distance_IR1		=	0;
-static int distance_IR8		=	0;
-static int turn_angle 		=	0;
 
 static void serial_start(void)
 {
@@ -71,18 +72,21 @@ int main(void)
 	calibrate_ir();
 	//messagebus_topic_t *proximity_topic = messagebus_find_topic_blocking(&bus, "/proximity");
 
+	motors_init();
 
 	while(1){
 
-	get_proximity();
+	get_proximity(distance_IR1, distance_IR8);
 	get_angle(distance_IR1,distance_IR8);
 
 	chprintf((BaseSequentialStream *)&SD3, "distance IR1 = %d \n", distance_IR1);
 	chprintf((BaseSequentialStream *)&SD3, "distance IR8 = %d \n", distance_IR8);
 	chprintf((BaseSequentialStream *)&SD3, "angle = %f \n", turn_angle);
 
+	/*
 	if(distance_IR1>2000)
 	turn_pucky(turn_angle);
+	*/
 
 	chThdSleepMilliseconds(1000);
 	}

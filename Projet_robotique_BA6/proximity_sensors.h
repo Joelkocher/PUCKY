@@ -1,6 +1,6 @@
-#ifndef PROXIMITY_SENSORS_H
-#define PROXIMITY_SENSORS_H
+//#ifndef PROXIMITY_SENSORS_H
+//#define PROXIMITY_SENSORS_H
 
-void get_proximity();
+void get_proximity(int distance1, int distance2);
 
-void get_angle(float distance_L1, float distance_L8);
+double get_angle(int distance1, int distance2);

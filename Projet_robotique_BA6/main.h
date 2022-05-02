@@ -8,7 +8,6 @@ extern "C" {
 	#include "camera/dcmi_camera.h"
 	#include "msgbus/messagebus.h"
 	#include "parameter/parameter.h"
-	#include "math.h"
 
 
 	//constants for the differents parts of the project
@@ -28,22 +27,12 @@ extern "C" {
 	#define PI                  	3.1415926536f
 	#define WHEEL_DISTANCE      	5.35f    //cm
 
+	#define MOTOR_SPEED_L			122	// steps/s = 5 cm/s
+	#define MOTOR_SPEED_R			122	// steps/s = 5 cm/s
 
 	#define DISTANCE_LIMITE_VIRAGE  1
-	#define PERIMETER_EPUCK     	(PI * WHEEL_DISTANCE)
+
 	#define TURN_FACTOR				360
-
-	#define SPEED_R					5
-	#define SPEED_L					5
-
-	#define SQUARE_COEFF		0.038
-	#define LIN_COEFF			-3.827
-	#define CONST_COEFF			93.788
-
-	static int distance_cm 		=	0;
-	static int distance_IR1		=	0;
-	static int distance_IR8		=	0;
-	static int turn_angle 		=	0;
 
 	/** Robot wide IPC bus. */
 	extern messagebus_t bus;
