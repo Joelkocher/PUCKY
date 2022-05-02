@@ -4,9 +4,6 @@
 #define IR_FRONT_RIGHT		0
 #define IR_FRONT_LEFT		7
 
-#define NB_OF_ANGLES 		7
-#define NB_OF_VARIABLES 	2
-
 /*
 Angle is approximated with a quadratic function.
 It depends on ratio = distance_IR1/distance_IR8:
@@ -14,14 +11,7 @@ It depends on ratio = distance_IR1/distance_IR8:
 angle(ratio)=0.038*ratio^2 - 3.827*ratio + 93.788
 
 */
-#define SQUARE_COEFF		0.038
-#define LIN_COEFF			-3.827
-#define CONST_COEFF			93.788
 
-static int distance_cm 		=	0;
-static int distance_IR1		=	0;
-static int distance_IR8		=	0;
-static int 	turn_angle 		=	0;
 
 void get_proximity()
 {

@@ -27,6 +27,11 @@ void SendUint8ToComputer(uint8_t* data, uint16_t size)
 	chSequentialStreamWrite((BaseSequentialStream *)&SD3, (uint8_t*)data, size);
 }
 
+static int distance_cm 		=	0;
+static int distance_IR1		=	0;
+static int distance_IR8		=	0;
+static int turn_angle 		=	0;
+
 static void serial_start(void)
 {
 	static SerialConfig ser_cfg = {
@@ -70,11 +75,16 @@ int main(void)
 	while(1){
 
 	get_proximity();
+	get_angle(distance_IR1,distance_IR8);
 
-	chprintf((BaseSequentialStream *)&SD3, "distance a = %d \n", distance_IR1);
-	chprintf((BaseSequentialStream *)&SD3, "distance b = %d \n", distance_IR8);
+	chprintf((BaseSequentialStream *)&SD3, "distance IR1 = %d \n", distance_IR1);
+	chprintf((BaseSequentialStream *)&SD3, "distance IR8 = %d \n", distance_IR8);
+	chprintf((BaseSequentialStream *)&SD3, "angle = %f \n", turn_angle);
 
-	chThdSleepMilliseconds(100);
+	if(distance_IR1>2000)
+	turn_pucky(turn_angle);
+
+	chThdSleepMilliseconds(1000);
 	}
 
 	/*
