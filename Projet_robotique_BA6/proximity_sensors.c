@@ -20,15 +20,6 @@ static BSEMAPHORE_DECL(distance_reached, TRUE);
 static BSEMAPHORE_DECL(angle_captured, TRUE);
 
 
-/*
-
-
-
-
-
-
-
-*/
 
 /*
 	get_angle is the function that gives the measured angle
@@ -63,7 +54,7 @@ double get_angle(double turn_angle, int distance_IR1, int distance_IR8){
 
 }
 
-static THD_WORKING_AREA(waTOF,0);
+/*static THD_WORKING_AREA(waTOF,0);
 static THD_FUNCTION(TOF,arg) {
 
 	chRegSetThreadName(__FUNCTION__);
@@ -117,4 +108,4 @@ void proximity_and_tof_start(void){
 	chThdCreateStatic(waTOF, sizeof(waTOF), NORMALPRIO, TOF, NULL);
 	chThdCreateStatic(waCouleur, sizeof(waCouleur), NORMALPRIO, TOF, NULL);
 
-}
+}*/

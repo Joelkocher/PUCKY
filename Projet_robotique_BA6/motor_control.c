@@ -13,6 +13,8 @@
 #define ANGLE2STEPS_CONST					PI*STEP_CORRECTION_FACTOR*EPUCK_DIAMETER/(4*WHEEL_PERIMETER)
 #define	STEP_CORRECTION_FACTOR	90
 
+
+static BSEMAPHORE_DECL(angle_ready, TRUE);
 /* 
 	If distance is under min. distance measured by ToF and color is blue, turn Pucky
 	Position of motors must be set with the following function:
@@ -96,8 +98,8 @@ void turn_pucky(double angle)
 */
 
 
-static THD_WORKING_AREA(waMotorControl, 256);
-static THD_FUNCTION(MotorControl, arg) {
+static THD_WORKING_AREA(waProximity, 256);
+static THD_FUNCTION(Proximity, arg) {
 
     chRegSetThreadName(__FUNCTION__);
     (void)arg;
@@ -115,26 +117,40 @@ static THD_FUNCTION(MotorControl, arg) {
     	distance_IR8 = get_calibrated_prox(IR_FRONT_LEFT);
     	turn_angle = get_angle(turn_angle,distance_IR1,distance_IR8);
 
-        time = chVTGetSystemTime();
+    	chBSemSignal(&angle_ready);
 
-        //applies the speed from the PI regulator and the correction for the rotation
-        get_angle(turn_angle, distance_IR1, distance_IR8);
+    }
+}
 
-        if(get_calibrated_prox(IR_FRONT_RIGHT)>2000 || get_calibrated_prox(IR_FRONT_LEFT)>2000)
-       	{
-       	turn_pucky(turn_angle);
-       	}
-      	else{
-       		left_motor_set_speed(MOTOR_SPEED_L);
-       		right_motor_set_speed(MOTOR_SPEED_R);
-      	}
-        //100Hz
-        chThdSleepUntilWindowed(time, time + MS2ST(10));
+static THD_WORKING_AREA(waMotorControl, 256);
+static THD_FUNCTION(MotorControl, arg) {
+
+    chRegSetThreadName(__FUNCTION__);
+    (void)arg;
+
+
+    while(1){
+
+    	chBSemWait(&angle_ready);
+		//time = chVTGetSystemTime();
+
+
+
+		if(get_calibrated_prox(IR_FRONT_RIGHT)>2000 || get_calibrated_prox(IR_FRONT_LEFT)>2000)
+		{
+		   turn_pucky(turn_angle);
+		 }
+		else{
+		   left_motor_set_speed(MOTOR_SPEED_L);
+		   right_motor_set_speed(MOTOR_SPEED_R);
+		 }
+
     }
 }
 
 
 void motor_control_start(void){
+	chThdCreateStatic(waProximity, sizeof(waProximity), NORMALPRIO, Proximity, NULL);
 	chThdCreateStatic(waMotorControl, sizeof(waMotorControl), NORMALPRIO, MotorControl, NULL);
 }
 

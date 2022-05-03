@@ -10,6 +10,7 @@ extern "C" {
 	#include "parameter/parameter.h"
 
 
+
 	//constants for the differents parts of the project
 	#define IMAGE_BUFFER_SIZE		640
 	#define WIDTH_SLOPE				5
@@ -35,7 +36,9 @@ extern "C" {
 
 	#define TURN_FACTOR				360
 
-
+	static int distance_IR1;
+	static int distance_IR8;
+	static double turn_angle;
 
 
 	/** Robot wide IPC bus. */
