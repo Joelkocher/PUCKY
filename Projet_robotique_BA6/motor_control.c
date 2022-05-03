@@ -16,15 +16,15 @@
 
 static BSEMAPHORE_DECL(angle_ready, TRUE);
 /* 
-	If distance is under min. distance measured by ToF and color is blue, turn Pucky
-	Position of motors must be set with the following function:
+	If distance is under min. distance measured by proximity sensor and color is blue, 
+	-- > turn Pucky
 
-	1000 steps/s = 1 revolution/s
-	1 revolution = PERIMETER_EPUCK = 40.84 cm
-	speed 5 cm/s = 122 setps/s
+	
+	Constant that determines how many steps corresponds to which angle of incidence:
 
-	Wheels must turn according to following formula:
-	turn_angle*WHEEL_PERIMETER/360
+	ANGLE2STEPS_CONST = PI*STEP_CORRECTION_FACTOR*EPUCK_DIAMETER/(4*WHEEL_PERIMETER)
+
+	The motors must turn by step_goal each to turn the right amount
 
 */
 
@@ -60,44 +60,6 @@ void turn_pucky(double angle)
 
 }
 
-/*void turn_90_degree(void) {
-
-	//virage à gauche
-	if(last_color == ROUGE) {
-		right_motor_set_pos(0);
-		left_motor_set_pos(NBR_STEP_90_DEGREE);
-		right_motor_set_speed(TURN_SPEED);
-		left_motor_set_speed(-TURN_SPEED);
-
-		while(right_motor_get_pos()<=NBR_STEP_90_DEGREE && left_motor_get_pos() >=0) {
-			__asm__ volatile("nop");
-		}
-		right_motor_set_speed(0);		//éteint les moteurs après avoir effectué le virage
-		left_motor_set_speed(0);
-	}
-
-	//virage à droite
-	if(last_color == VERT)	{
-		right_motor_set_pos(NBR_STEP_90_DEGREE);
-		left_motor_set_pos(0);
-		right_motor_set_speed(-TURN_SPEED);
-		left_motor_set_speed(TURN_SPEED);
-
-		while(right_motor_get_pos()>=0 && left_motor_get_pos()<= NBR_STEP_90_DEGREE) {
-			__asm__ volatile("nop");
-		}
-		right_motor_set_speed(0);
-		left_motor_set_speed(0);
-	}
-
-	//arrêter les moteurs
-	if(last_color == BLEU) {
-		motor_stop = true;
-	}
-}
-*/
-
-
 static THD_WORKING_AREA(waProximity, 256);
 static THD_FUNCTION(Proximity, arg) {
 
@@ -108,10 +70,6 @@ static THD_FUNCTION(Proximity, arg) {
 
 
     while(1){
-
-    	int distance_IR1 = 0;
-    	int distance_IR8 = 0;
-    	double turn_angle = 0;
 
     	distance_IR1 = get_calibrated_prox(IR_FRONT_RIGHT);
     	distance_IR8 = get_calibrated_prox(IR_FRONT_LEFT);
