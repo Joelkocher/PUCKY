@@ -21,9 +21,6 @@
 #include <proximity_sensors.h>
 #include <motor_control.h>
 
-int distance_IR1 = 0;
-int distance_IR8	= 0;
-double	turn_angle = 0;
 
 void SendUint8ToComputer(uint8_t* data, uint16_t size) 
 {
@@ -72,25 +69,31 @@ int main(void)
 	calibrate_ir();
 	//messagebus_topic_t *proximity_topic = messagebus_find_topic_blocking(&bus, "/proximity");
 
+	//inits the motors
 	motors_init();
 
-	while(1){
-
-	get_proximity(distance_IR1, distance_IR8);
-	get_angle(distance_IR1,distance_IR8);
-
-	chprintf((BaseSequentialStream *)&SD3, "distance IR1 = %d \n", distance_IR1);
-	chprintf((BaseSequentialStream *)&SD3, "distance IR8 = %d \n", distance_IR8);
-	chprintf((BaseSequentialStream *)&SD3, "angle = %f \n", turn_angle);
+	motor_control_start();
 
 	/*
-	if(distance_IR1>2000)
-	turn_pucky(turn_angle);
-	*/
+	while(1){
 
-	chThdSleepMilliseconds(1000);
+	int distance_IR1 = 0;
+	int distance_IR8 = 0;
+	double	turn_angle = 0;
+
+	distance_IR1 = get_calibrated_prox(IR_FRONT_RIGHT);
+	distance_IR8 = get_calibrated_prox(IR_FRONT_LEFT);
+
+	turn_angle=get_angle(turn_angle,distance_IR1,distance_IR8);
+
+	chprintf((BaseSequentialStream *)&SDU1, "distance IR1 = %d \n", distance_IR1);
+	chprintf((BaseSequentialStream *)&SDU1, "distance IR8 = %d \n", distance_IR8);
+	chprintf((BaseSequentialStream *)&SDU1, "angle = %f \n", turn_angle);
+
+	chThdSleepMilliseconds(100);
 	}
-
+	*/
+	
 	/*
 	//inits the motors
 	motors_init();

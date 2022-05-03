@@ -1,6 +1,11 @@
 //#ifndef PROXIMITY_SENSORS_H
 //#define PROXIMITY_SENSORS_H
 
-void get_proximity(int distance1, int distance2);
+#include <main.h>
 
-double get_angle(int distance1, int distance2);
+#define IR_FRONT_RIGHT		0
+#define IR_FRONT_LEFT		7
+
+//void get_proximity();
+
+double get_angle(double turn_angle, int distance_IR1, int distance_IR8);

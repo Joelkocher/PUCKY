@@ -26,13 +26,17 @@ extern "C" {
 	#define WHEEL_PERIMETER         13 // [cm]
 	#define PI                  	3.1415926536f
 	#define WHEEL_DISTANCE      	5.35f    //cm
+	#define EPUCK_DIAMETER			54		//distance between the wheels
 
-	#define MOTOR_SPEED_L			122	// steps/s = 5 cm/s
-	#define MOTOR_SPEED_R			122	// steps/s = 5 cm/s
+	#define MOTOR_SPEED_L			450	// steps/s = 5 cm/s
+	#define MOTOR_SPEED_R			450	// steps/s = 5 cm/s
 
 	#define DISTANCE_LIMITE_VIRAGE  1
 
 	#define TURN_FACTOR				360
+
+
+
 
 	/** Robot wide IPC bus. */
 	extern messagebus_t bus;
