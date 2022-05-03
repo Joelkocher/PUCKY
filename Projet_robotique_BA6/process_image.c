@@ -8,9 +8,22 @@
 
 #include <process_image.h>
 
+<<<<<<< HEAD
 static uint16_t line_position = IMAGE_BUFFER_SIZE/2;	//middle
 
 	
+=======
+static int distance_cm = 0;
+static int distance_L1 = 0;
+static int distance_L8 = 0;
+static int angle_de_tournage=0;
+static uint16_t line_position = IMAGE_BUFFER_SIZE/2;	//middle
+
+
+
+
+
+>>>>>>> f0d0e86 (.)
 //semaphore
 static BSEMAPHORE_DECL(image_ready_sem, TRUE);
 
