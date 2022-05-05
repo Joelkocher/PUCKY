@@ -8,21 +8,18 @@
 
 #include <process_image.h>
 
-
+static float distance_cm = 0;
 static uint16_t line_position = IMAGE_BUFFER_SIZE/2;	//middle
+static uint32_t RED =0;
 
-	
+
 
 //semaphore
-//static BSEMAPHORE_DECL(image_ready_sem, TRUE);
-
-/*
- *  Returns the line's width extracted from the image buffer given
- *  Returns 0 if line not found
- */
+static BSEMAPHORE_DECL(image_ready_sem, TRUE);
 
 
-/*static THD_WORKING_AREA(waCaptureImage, 256);
+
+static THD_WORKING_AREA(waCaptureImage, 256);
 static THD_FUNCTION(CaptureImage, arg) {
 
     chRegSetThreadName(__FUNCTION__);
@@ -41,6 +38,8 @@ static THD_FUNCTION(CaptureImage, arg) {
 		wait_image_ready();
 		//signals an image has been captured
 		chBSemSignal(&image_ready_sem);
+
+
     }
 }
 
@@ -54,6 +53,9 @@ static THD_FUNCTION(ProcessImage, arg) {
 	uint8_t *img_buff_ptr;
 	uint8_t image[IMAGE_BUFFER_SIZE] = {0};
 	uint16_t lineWidth = 0;
+	uint32_t mean=0;
+	uint16_t moyenne = 0;
+	uint16_t threshold=0;
 
 	bool send_to_computer = true;
 
@@ -63,22 +65,36 @@ static THD_FUNCTION(ProcessImage, arg) {
 		//gets the pointer to the array filled with the last image in RGB565    
 		img_buff_ptr = dcmi_get_last_image_ptr();
 
+
 		//Extracts only the red pixels
+
+
+
 		for(uint16_t i = 0 ; i < (2 * IMAGE_BUFFER_SIZE) ; i+=2){
-			//extracts first 5bits of the first byte
-			//takes nothing from the second byte
-			image[i/2] = (uint8_t)img_buff_ptr[i]&0xF8;
+				//extracts first 5bits of the first byte
+				//takes nothing from the second byte
+				image[i/2] = (uint8_t)img_buff_ptr[i]&0xF8;
+		//}
+		//for(uint16_t j=0; j<IMAGE_BUFFER_SIZE; j++) {
+				mean += image[i/2];
+
 		}
+		mean =mean/IMAGE_BUFFER_SIZE;
+		chprintf((BaseSequentialStream *)&SDU1, "mean = %d \n ", mean);
 
-		//search for a line in the image and gets its width in pixels
+        if (mean>= 100){
+        	RED =1;
+        	chprintf((BaseSequentialStream *)&SDU1, "RED = %d \n ", RED);
+
+        }
+        else{
+        	RED=0;
+        	chprintf((BaseSequentialStream *)&SDU1, "RED = %d \n ", RED);
+        }
 
 
-		//converts the width into a distance between the robot and the camera
 
-		/*
-		if(lineWidth){
-			distance_cm = PXTOCM/lineWidth;
-		}
+
 
 		if(send_to_computer){
 			//sends to the computer the image
@@ -86,17 +102,13 @@ static THD_FUNCTION(ProcessImage, arg) {
 		}
 		//invert the bool
 		send_to_computer = !send_to_computer;
-
-
-
-
-
-
     }
 }
 
 
+
 void process_image_start(void){
+
 	chThdCreateStatic(waProcessImage, sizeof(waProcessImage), NORMALPRIO, ProcessImage, NULL);
 	chThdCreateStatic(waCaptureImage, sizeof(waCaptureImage), NORMALPRIO, CaptureImage, NULL);
-}*/
+}

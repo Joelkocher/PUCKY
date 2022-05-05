@@ -74,15 +74,11 @@ int main(void)
 	//inits the motors
 	motors_init();
 
-	//motor_control_start();
+	motor_control_start();
+	process_image_start();
 
 	while(1){
-		capture_couleur();
-		int youpi = 0;
-		youpi = get_couleur();
-		chprintf((BaseSequentialStream *)&SDU1, "youpi = %d \n ", youpi);
 
-		chThdSleepMilliseconds(500);
 	}
 
 }

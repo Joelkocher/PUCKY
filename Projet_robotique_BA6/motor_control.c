@@ -148,16 +148,8 @@ static THD_FUNCTION(MotorControl, arg) {
     while(1){
 
     	chBSemWait(&angle_ready);
-		//time = chVTGetSystemTime();
 
-    	//capture_couleur();
-    	/*if(get_couleur()==ROUGE){
-    	    		right_motor_set_speed(0);
-    	    		left_motor_set_speed(0);
-    	    	}*/
-    	//else{
-
-
+        //if (RED==0){
 			if(get_calibrated_prox(IR_FRONT_RIGHT)>2000 || get_calibrated_prox(IR_FRONT_LEFT)>2000)
 			{
 				turn_pucky(turn_angle);
@@ -166,7 +158,10 @@ static THD_FUNCTION(MotorControl, arg) {
 				left_motor_set_speed(MOTOR_SPEED_L);
 				right_motor_set_speed(MOTOR_SPEED_R);
 			}
-    	//}
+     //   }else{
+        	//right_motor_set_speed(0);
+        	//left_motor_set_speed(0);
+        //}
 
     }
 }
