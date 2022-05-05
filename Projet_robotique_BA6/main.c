@@ -20,6 +20,7 @@
 #include <process_image.h>
 #include <proximity_sensors.h>
 #include <motor_control.h>
+#include <color_control.h>
 
 
 void SendUint8ToComputer(uint8_t* data, uint16_t size) 
@@ -61,8 +62,9 @@ int main(void)
     //start the USB communication
     usb_start();
     //starts the camera
-    //dcmi_start();
-	//po8030_start();
+    dcmi_start();
+	po8030_start();
+	camera_init();
 
     //initialize proximity sensors
 	proximity_start();
@@ -72,44 +74,17 @@ int main(void)
 	//inits the motors
 	motors_init();
 
-	motor_control_start();
+	//motor_control_start();
 
-	/*
 	while(1){
+		capture_couleur();
+		int youpi = 0;
+		youpi = get_couleur();
+		chprintf((BaseSequentialStream *)&SDU1, "youpi = %d \n ", youpi);
 
-	int distance_IR1 = 0;
-	int distance_IR8 = 0;
-	double	turn_angle = 0;
-
-	distance_IR1 = get_calibrated_prox(IR_FRONT_RIGHT);
-	distance_IR8 = get_calibrated_prox(IR_FRONT_LEFT);
-
-	turn_angle=get_angle(turn_angle,distance_IR1,distance_IR8);
-
-	chprintf((BaseSequentialStream *)&SDU1, "distance IR1 = %d \n", distance_IR1);
-	chprintf((BaseSequentialStream *)&SDU1, "distance IR8 = %d \n", distance_IR8);
-	chprintf((BaseSequentialStream *)&SDU1, "angle = %f \n", turn_angle);
-
-	chThdSleepMilliseconds(100);
+		chThdSleepMilliseconds(500);
 	}
-	*/
-	
-	/*
-	//inits the motors
-	motors_init();
 
-	//stars the threads for the pi regulator and the processing of the image
-	pi_regulator_start();
-	process_image_start();
-	proximity_and_tof_start();
-
-	*/
-
-    /* Infinite loop. */
-    /*while (1) {
-    	//waits 1 second
-        chThdSleepMilliseconds(1000);
-    }*/
 }
 
 #define STACK_CHK_GUARD 0xe2dee396

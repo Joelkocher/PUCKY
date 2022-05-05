@@ -13,19 +13,8 @@ static uint16_t line_position = IMAGE_BUFFER_SIZE/2;	//middle
 
 	
 
-static int distance_cm = 0;
-static int distance_L1 = 0;
-static int distance_L8 = 0;
-static int angle_de_tournage=0;
-
-
-
-
-
-
-
 //semaphore
-static BSEMAPHORE_DECL(image_ready_sem, TRUE);
+//static BSEMAPHORE_DECL(image_ready_sem, TRUE);
 
 /*
  *  Returns the line's width extracted from the image buffer given
@@ -33,7 +22,7 @@ static BSEMAPHORE_DECL(image_ready_sem, TRUE);
  */
 
 
-static THD_WORKING_AREA(waCaptureImage, 256);
+/*static THD_WORKING_AREA(waCaptureImage, 256);
 static THD_FUNCTION(CaptureImage, arg) {
 
     chRegSetThreadName(__FUNCTION__);
@@ -97,21 +86,17 @@ static THD_FUNCTION(ProcessImage, arg) {
 		}
 		//invert the bool
 		send_to_computer = !send_to_computer;
-		*/
+
+
+
+
+
+
     }
 }
 
-/*
-float get_distance_cm(void){
-	return distance_cm;
-}
-
-uint16_t get_line_position(void){
-	return line_position;
-}
-*/
 
 void process_image_start(void){
 	chThdCreateStatic(waProcessImage, sizeof(waProcessImage), NORMALPRIO, ProcessImage, NULL);
 	chThdCreateStatic(waCaptureImage, sizeof(waCaptureImage), NORMALPRIO, CaptureImage, NULL);
-}
+}*/
