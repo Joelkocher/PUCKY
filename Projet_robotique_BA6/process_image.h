@@ -1,8 +1,12 @@
 #ifndef PROCESS_IMAGE_H
 #define PROCESS_IMAGE_H
 
+#define GAME_ON			1
+#define GAME_OVER		0
+
 float get_distance_cm(void);
 uint16_t get_line_position(void);
 void process_image_start(void);
+int pi_get_state(void);
 
 #endif /* PROCESS_IMAGE_H */

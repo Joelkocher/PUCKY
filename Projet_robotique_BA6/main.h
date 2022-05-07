@@ -39,6 +39,7 @@ extern "C" {
 	static int distance_IR1;
 	static int distance_IR8;
 	static double turn_angle;
+	static uint32_t mean;
 
 
 	/** Robot wide IPC bus. */

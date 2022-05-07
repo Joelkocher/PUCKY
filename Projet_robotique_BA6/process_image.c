@@ -7,10 +7,11 @@
 #include <camera/po8030.h>
 
 #include <process_image.h>
+#include <motors.h>
 
-static float distance_cm = 0;
-static uint16_t line_position = IMAGE_BUFFER_SIZE/2;	//middle
+
 static uint32_t RED =0;
+static game_state = GAME_ON;
 
 
 
@@ -54,7 +55,6 @@ static THD_FUNCTION(ProcessImage, arg) {
 	uint8_t image[IMAGE_BUFFER_SIZE] = {0};
 	uint16_t lineWidth = 0;
 	uint32_t mean=0;
-	uint16_t moyenne = 0;
 	uint16_t threshold=0;
 
 	bool send_to_computer = true;
@@ -82,30 +82,33 @@ static THD_FUNCTION(ProcessImage, arg) {
 		mean =mean/IMAGE_BUFFER_SIZE;
 		chprintf((BaseSequentialStream *)&SDU1, "mean = %d \n ", mean);
 
-        if (mean>= 100){
-        	RED =1;
-        	chprintf((BaseSequentialStream *)&SDU1, "RED = %d \n ", RED);
 
-        }
-        else{
-        	RED=0;
-        	chprintf((BaseSequentialStream *)&SDU1, "RED = %d \n ", RED);
-        }
+		//int get_red(uint32_t mean);
+		 if (mean>= 100){
+				 RED =1;
+				 chprintf((BaseSequentialStream *)&SDU1, "RED = %d \n ", RED);
+				 game_state = GAME_OVER;
 
+		 }
+		 else{
+				 RED=0;
+				 chprintf((BaseSequentialStream *)&SDU1, "RED = %d \n ", RED);
+				 game_state = GAME_ON;
+		 }
 
-
-
-
-		if(send_to_computer){
+		 if(send_to_computer){
 			//sends to the computer the image
 			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
-		}
-		//invert the bool
-		send_to_computer = !send_to_computer;
+		 }
+		   //invert the bool
+		 send_to_computer = !send_to_computer;
     }
 }
 
+int pi_get_state(void){
 
+	return game_state;
+}
 
 void process_image_start(void){
 
