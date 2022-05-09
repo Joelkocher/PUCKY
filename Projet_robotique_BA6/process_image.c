@@ -7,8 +7,6 @@
 #include <camera/po8030.h>
 
 #include <process_image.h>
-#include <motors.h>
-
 
 static uint32_t RED =0;
 static game_state = GAME_ON;
@@ -28,9 +26,12 @@ static THD_FUNCTION(CaptureImage, arg) {
 
 	//Takes pixels 0 to IMAGE_BUFFER_SIZE of the line 10 + 11 (minimum 2 lines because reasons)
 	po8030_advanced_config(FORMAT_RGB565, 0, 10, IMAGE_BUFFER_SIZE, 2, SUBSAMPLING_X1, SUBSAMPLING_X1);
+	po8030_set_awb(0);	//disables auto white balance
+	po8030_set_ae(1);	//enables auto-exposure
 	dcmi_enable_double_buffering();
 	dcmi_set_capture_mode(CAPTURE_ONE_SHOT);
 	dcmi_prepare();
+
 
     while(1){
         //starts a capture
@@ -55,7 +56,6 @@ static THD_FUNCTION(ProcessImage, arg) {
 	uint8_t image[IMAGE_BUFFER_SIZE] = {0};
 	uint16_t lineWidth = 0;
 	uint32_t mean=0;
-	uint16_t threshold=0;
 
 	bool send_to_computer = true;
 
@@ -83,8 +83,7 @@ static THD_FUNCTION(ProcessImage, arg) {
 		chprintf((BaseSequentialStream *)&SDU1, "mean = %d \n ", mean);
 
 
-		//int get_red(uint32_t mean);
-		 if (mean>= 100){
+		 if (mean>= ROUGE_TRESHOLD){
 				 RED =1;
 				 chprintf((BaseSequentialStream *)&SDU1, "RED = %d \n ", RED);
 				 game_state = GAME_OVER;

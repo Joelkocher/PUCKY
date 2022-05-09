@@ -3,6 +3,7 @@
 
 #define GAME_ON			1
 #define GAME_OVER		0
+#define ROUGE_TRESHOLD  50
 
 float get_distance_cm(void);
 uint16_t get_line_position(void);

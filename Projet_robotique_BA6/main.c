@@ -20,7 +20,6 @@
 #include <process_image.h>
 #include <proximity_sensors.h>
 #include <motor_control.h>
-#include <color_control.h>
 
 
 void SendUint8ToComputer(uint8_t* data, uint16_t size) 
