@@ -8,8 +8,13 @@
 
 #include <process_image.h>
 
+
 static uint32_t RED =0;
 static game_state = GAME_ON;
+
+
+
+static uint16_t line_position = IMAGE_BUFFER_SIZE/2;	//middle
 
 
 
@@ -79,6 +84,7 @@ static THD_FUNCTION(ProcessImage, arg) {
 				mean += image[i/2];
 
 		}
+
 		mean =mean/IMAGE_BUFFER_SIZE;
 		chprintf((BaseSequentialStream *)&SDU1, "mean = %d \n ", mean);
 
@@ -95,6 +101,9 @@ static THD_FUNCTION(ProcessImage, arg) {
 				 game_state = GAME_ON;
 		 }
 
+
+
+
 		 if(send_to_computer){
 			//sends to the computer the image
 			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
@@ -108,6 +117,7 @@ int pi_get_state(void){
 
 	return game_state;
 }
+
 
 void process_image_start(void){
 

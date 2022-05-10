@@ -18,7 +18,6 @@
 static BSEMAPHORE_DECL(angle_ready, TRUE);
 
 
-
 void turn_pucky(double angle)
 {
 	unsigned int step_goal;
@@ -50,7 +49,7 @@ void turn_pucky(double angle)
 	}
 
 }
-///---------------------------------------threads-------------------------------------------///
+
 
 static THD_WORKING_AREA(waProximity, 256);
 static THD_FUNCTION(Proximity, arg) {

@@ -6,7 +6,6 @@
 #define ROUGE_TRESHOLD  50
 
 float get_distance_cm(void);
-uint16_t get_line_position(void);
 void process_image_start(void);
 int pi_get_state(void);
 
