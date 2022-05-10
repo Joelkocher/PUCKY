@@ -10,8 +10,9 @@
 #include <proximity_sensors.h>
 #include <motor_control.h>
 
-#define ANGLE2STEPS_CONST					PI*STEP_CORRECTION_FACTOR*EPUCK_DIAMETER/(4*WHEEL_PERIMETER)
+#define ANGLE2STEPS_CONST		PI*STEP_CORRECTION_FACTOR*EPUCK_DIAMETER/(4*WHEEL_PERIMETER)
 #define	STEP_CORRECTION_FACTOR	90
+#define TURN_THRESHOLD			1700		//As of this proximity value, robot will turn or stop
 
 
 static BSEMAPHORE_DECL(angle_ready, TRUE);
@@ -81,20 +82,23 @@ static THD_FUNCTION(MotorControl, arg) {
 
     	chBSemWait(&angle_ready);
 
-        if (pi_get_state()==GAME_ON){
-			if(get_calibrated_prox(IR_FRONT_RIGHT)>2000 || get_calibrated_prox(IR_FRONT_LEFT)>2000)
+     
+			if(get_calibrated_prox(IR_FRONT_RIGHT)>TURN_THRESHOLD || get_calibrated_prox(IR_FRONT_LEFT)>TURN_THRESHOLD)
 			{
+				if (pi_get_state()==GAME_ON){
 				turn_pucky(turn_angle);
+				}
+				else{
+           		right_motor_set_speed(0);
+           		left_motor_set_speed(0);
+       			}
 			}
 			else{
-				left_motor_set_speed(MOTOR_SPEED_L);
-				right_motor_set_speed(MOTOR_SPEED_R);
+				if(get_calibrated_prox(IR_FRONT_RIGHT)>TURN_THRESHOLD || get_calibrated_prox(IR_FRONT_LEFT)>TURN_THRESHOLD){
+					left_motor_set_speed(MOTOR_SPEED_L);
+					right_motor_set_speed(MOTOR_SPEED_R);
+				}
 			}
-        }else{
-           right_motor_set_speed(0);
-           left_motor_set_speed(0);
-       }
-
     }
 }
 
