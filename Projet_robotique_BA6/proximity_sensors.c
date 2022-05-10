@@ -26,10 +26,6 @@
 */
 double get_angle(double turn_angle, int distance_IR1, int distance_IR8){
 
-	/*
-	distance_IR1 = get_calibrated_prox(IR_FRONT_RIGHT);
-	distance_IR8 = get_calibrated_prox(IR_FRONT_LEFT);
-	*/
 
 	//ratio between
 	double ratio;

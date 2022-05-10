@@ -52,10 +52,6 @@ void turn_pucky(double angle)
 }
 ///---------------------------------------threads-------------------------------------------///
 
-
-
-
-
 static THD_WORKING_AREA(waProximity, 256);
 static THD_FUNCTION(Proximity, arg) {
 
@@ -66,7 +62,6 @@ static THD_FUNCTION(Proximity, arg) {
 
 
     while(1){
-
 
     	distance_IR1 = get_calibrated_prox(IR_FRONT_RIGHT);
     	distance_IR8 = get_calibrated_prox(IR_FRONT_LEFT);
