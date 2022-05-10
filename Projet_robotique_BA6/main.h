@@ -10,18 +10,20 @@ extern "C" {
 	#include "parameter/parameter.h"
 
 
-
 	//constants for the differents parts of the project
 	#define IMAGE_BUFFER_SIZE		640
 
 	#define MAX_SUM_ERROR 			(MOTOR_SPEED_LIMIT/KI)
-	#define WHEEL_PERIMETER         13 // [cm]
-	#define WHEEL_DISTANCE      	5.35f    //cm
-	#define EPUCK_DIAMETER			54		//distance between the wheels
+	#define WHEEL_PERIMETER         13 		// [cm]
+	#define WHEEL_DISTANCE      	5.35f   // [cm]
+	#define EPUCK_DIAMETER			54		//Distance between the wheels
 
-	#define MOTOR_SPEED_L			450	// steps/s = 5 cm/s
-	#define MOTOR_SPEED_R			450	// steps/s = 5 cm/s
+	#define MOTOR_SPEED_L			450	// [steps/s]
+	#define MOTOR_SPEED_R			450	// [steps/s]
 	#define PI						3.1415926536f
+
+	#define IR_FRONT_RIGHT		0
+	#define IR_FRONT_LEFT		7
 
 	static int distance_IR1;
 	static int distance_IR8;
@@ -31,7 +33,6 @@ extern "C" {
 
 	/** Robot wide IPC bus. */
 	extern messagebus_t bus;
-
 	extern parameter_namespace_t parameter_root;
 
 	void SendUint8ToComputer(uint8_t* data, uint16_t size);

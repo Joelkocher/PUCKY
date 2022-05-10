@@ -8,14 +8,10 @@
 
 #include <process_image.h>
 
-
-static uint32_t RED =0;
-static game_state = GAME_ON;
-
+static uint8_t game_state	 = 		GAME_ON;
 
 //semaphore
 static BSEMAPHORE_DECL(image_ready_sem, TRUE);
-
 
 static THD_WORKING_AREA(waCaptureImage, 256);
 static THD_FUNCTION(CaptureImage, arg) {
@@ -51,10 +47,6 @@ static THD_FUNCTION(ProcessImage, arg) {
 
 	uint8_t *img_buff_ptr;
 	uint8_t image[IMAGE_BUFFER_SIZE] = {0};
-	uint16_t lineWidth = 0;
-	uint32_t mean=0;
-
-	bool send_to_computer = true;
 
     while(1){
     	//waits until an image has been captured
@@ -64,44 +56,23 @@ static THD_FUNCTION(ProcessImage, arg) {
 
 
 		//Extracts only the red pixels
-
-
-
 		for(uint16_t i = 0 ; i < (2 * IMAGE_BUFFER_SIZE) ; i+=2){
 				//extracts first 5bits of the first byte
 				//takes nothing from the second byte
 				image[i/2] = (uint8_t)img_buff_ptr[i]&0xF8;
-		//}
-		//for(uint16_t j=0; j<IMAGE_BUFFER_SIZE; j++) {
 				mean += image[i/2];
 
 		}
 
 		mean =mean/IMAGE_BUFFER_SIZE;
-		chprintf((BaseSequentialStream *)&SDU1, "mean = %d \n ", mean);
 
-
-		 if (mean>= ROUGE_TRESHOLD){
-				 RED =1;
-				 chprintf((BaseSequentialStream *)&SDU1, "RED = %d \n ", RED);
-				 game_state = GAME_OVER;
+		 if (mean>= RED_TRESHOLD){
+			 game_state = GAME_OVER;
 
 		 }
 		 else{
-				 RED=0;
-				 chprintf((BaseSequentialStream *)&SDU1, "RED = %d \n ", RED);
-				 game_state = GAME_ON;
+			game_state = GAME_ON;
 		 }
-
-
-
-
-		 if(send_to_computer){
-			//sends to the computer the image
-			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
-		 }
-		   //invert the bool
-		 send_to_computer = !send_to_computer;
     }
 }
 
