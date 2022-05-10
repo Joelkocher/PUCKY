@@ -13,8 +13,6 @@ extern "C" {
 
 	//constants for the differents parts of the project
 	#define IMAGE_BUFFER_SIZE		640
-	#define WIDTH_SLOPE				5
-	#define MIN_LINE_WIDTH			40
 	#define ROTATION_THRESHOLD		10
 	#define ROTATION_COEFF			2
 	#define PXTOCM					1570.0f //experimental value
@@ -39,6 +37,7 @@ extern "C" {
 	static int distance_IR1;
 	static int distance_IR8;
 	static double turn_angle;
+	static uint32_t mean;
 
 
 	/** Robot wide IPC bus. */

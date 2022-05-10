@@ -9,24 +9,14 @@
 #include <process_image.h>
 #include <proximity_sensors.h>
 #include <motor_control.h>
+#include <color_control.h>
 
 #define ANGLE2STEPS_CONST					PI*STEP_CORRECTION_FACTOR*EPUCK_DIAMETER/(4*WHEEL_PERIMETER)
 #define	STEP_CORRECTION_FACTOR	90
 
 
 static BSEMAPHORE_DECL(angle_ready, TRUE);
-/* 
-	If distance is under min. distance measured by proximity sensor and color is blue, 
-	-- > turn Pucky
 
-	
-	Constant that determines how many steps corresponds to which angle of incidence:
-
-	ANGLE2STEPS_CONST = PI*STEP_CORRECTION_FACTOR*EPUCK_DIAMETER/(4*WHEEL_PERIMETER)
-
-	The motors must turn by step_goal each to turn the right amount
-
-*/
 
 void turn_pucky(double angle)
 {
@@ -60,6 +50,7 @@ void turn_pucky(double angle)
 
 }
 
+
 static THD_WORKING_AREA(waProximity, 256);
 static THD_FUNCTION(Proximity, arg) {
 
@@ -90,24 +81,27 @@ static THD_FUNCTION(MotorControl, arg) {
     while(1){
 
     	chBSemWait(&angle_ready);
-		//time = chVTGetSystemTime();
 
-
-
-		if(get_calibrated_prox(IR_FRONT_RIGHT)>2000 || get_calibrated_prox(IR_FRONT_LEFT)>2000)
-		{
-		   turn_pucky(turn_angle);
-		 }
-		else{
-		   left_motor_set_speed(MOTOR_SPEED_L);
-		   right_motor_set_speed(MOTOR_SPEED_R);
-		 }
+        if (pi_get_state()==GAME_ON){
+			if(get_calibrated_prox(IR_FRONT_RIGHT)>2000 || get_calibrated_prox(IR_FRONT_LEFT)>2000)
+			{
+				turn_pucky(turn_angle);
+			}
+			else{
+				left_motor_set_speed(MOTOR_SPEED_L);
+				right_motor_set_speed(MOTOR_SPEED_R);
+			}
+        }else{
+           right_motor_set_speed(0);
+           left_motor_set_speed(0);
+       }
 
     }
 }
 
 
 void motor_control_start(void){
+
 	chThdCreateStatic(waProximity, sizeof(waProximity), NORMALPRIO, Proximity, NULL);
 	chThdCreateStatic(waMotorControl, sizeof(waMotorControl), NORMALPRIO, MotorControl, NULL);
 }
