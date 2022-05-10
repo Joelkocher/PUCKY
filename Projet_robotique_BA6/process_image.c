@@ -13,14 +13,8 @@ static uint32_t RED =0;
 static game_state = GAME_ON;
 
 
-
-static uint16_t line_position = IMAGE_BUFFER_SIZE/2;	//middle
-
-
-
 //semaphore
 static BSEMAPHORE_DECL(image_ready_sem, TRUE);
-
 
 
 static THD_WORKING_AREA(waCaptureImage, 256);
@@ -45,8 +39,6 @@ static THD_FUNCTION(CaptureImage, arg) {
 		wait_image_ready();
 		//signals an image has been captured
 		chBSemSignal(&image_ready_sem);
-
-
     }
 }
 

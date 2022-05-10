@@ -9,7 +9,6 @@
 #include <process_image.h>
 #include <proximity_sensors.h>
 #include <motor_control.h>
-#include <color_control.h>
 
 #define ANGLE2STEPS_CONST					PI*STEP_CORRECTION_FACTOR*EPUCK_DIAMETER/(4*WHEEL_PERIMETER)
 #define	STEP_CORRECTION_FACTOR	90

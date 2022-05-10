@@ -16,7 +16,6 @@
 #include <sensors/proximity.h>
 
 
-#include <pi_regulator.h>
 #include <process_image.h>
 #include <proximity_sensors.h>
 #include <motor_control.h>
@@ -63,7 +62,7 @@ int main(void)
     //starts the camera
     dcmi_start();
 	po8030_start();
-	camera_init();
+	//camera_init();
 
     //initialize proximity sensors
 	proximity_start();
