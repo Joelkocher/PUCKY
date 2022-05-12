@@ -22,8 +22,10 @@ extern "C" {
 	#define MOTOR_SPEED_R			450	// [steps/s]
 	#define PI						3.1415926536f
 
-	#define IR_FRONT_RIGHT		0
-	#define IR_FRONT_LEFT		7
+	#define IR_FRONT_RIGHT			0
+	#define IR_FRONT_LEFT			7
+
+	#define MINIMUM_ANGLE			45	//Minimum turn angle to avoid bad behavior while turning
 
 	static int distance_IR1;
 	static int distance_IR8;

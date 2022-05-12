@@ -12,7 +12,7 @@
 
 #define ANGLE2STEPS_CONST		PI*STEP_CORRECTION_FACTOR*EPUCK_DIAMETER/(4*WHEEL_PERIMETER)
 #define	STEP_CORRECTION_FACTOR	85			//Value determined by experimentation
-#define TURN_THRESHOLD			1700		//As of this proximity value, robot will turn or stop
+#define TURN_THRESHOLD			1900		//As of this proximity value, robot will turn or stop
 
 
 static BSEMAPHORE_DECL(angle_ready, TRUE);
@@ -87,6 +87,7 @@ static THD_FUNCTION(MotorControl, arg) {
 				else{
            		right_motor_set_speed(0);
            		left_motor_set_speed(0);
+           		chThdSleepSeconds(4);
        			}
 			}
 			else{

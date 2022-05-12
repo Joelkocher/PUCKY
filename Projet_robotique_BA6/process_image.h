@@ -3,7 +3,7 @@
 
 #define GAME_ON			1
 #define GAME_OVER		0
-#define RED_TRESHOLD  70
+#define RED_TRESHOLD  	60
 
 float get_distance_cm(void);
 void process_image_start(void);

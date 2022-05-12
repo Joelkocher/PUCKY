@@ -31,10 +31,18 @@ double get_angle(double turn_angle, int distance_IR1, int distance_IR8){
 	if(ratio>=1)
 	{
 		turn_angle = SQUARE_COEFF*ratio*ratio+LIN_COEFF*ratio+CONST_COEFF;
+
+		//If the angle is too small, the angle is set to 45 degrees to avoid bad behavior while turning
+		if (turn_angle < MINIMUM_ANGLE){
+			turn_angle = MINIMUM_ANGLE;
+		}
 	}
 	else
 	{
 		turn_angle = -(SQUARE_COEFF*inv_ratio*inv_ratio+LIN_COEFF*inv_ratio+CONST_COEFF);
+		if (turn_angle > -MINIMUM_ANGLE){
+					turn_angle = -MINIMUM_ANGLE;
+		}
 	}
 	return turn_angle;
 }
